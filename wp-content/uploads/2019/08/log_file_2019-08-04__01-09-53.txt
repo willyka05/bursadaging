@@ -1,0 +1,18 @@
+
+---Downloaded files---
+The import files for: Dummy-data were successfully downloaded!
+Initial max execution time = 30
+Files info:
+Site URL = https://www.bursadaging.com
+Data file = /home/burh4753/public_html/wp-content/themes/hungry/dummy-data/dummy-data.xml
+Widget file = not defined!
+Customizer file = not defined!
+Redux files:
+not defined!
+
+------
+New AJAX call!
+
+
+---pt-ocdi/after_import---
+

@@ -1,0 +1,281 @@
+/**
+ *
+ * slippry v1.4.0 - Responsive content slider for jQuery
+ * http://slippry.com
+ *
+ * Authors: Lukas Jakob Hafner - @saftsaak
+ *          Thomas Hurd - @SeenNotHurd
+ *
+ * Copyright 2016, booncon oy - http://booncon.com
+ *
+ *
+ * Released under the MIT license - http://opensource.org/licenses/MIT
+ */
+/* kenBurns animations, very basic */
+@-webkit-keyframes left-right {
+  0% {
+    -webkit-transform: translateY(-20%) translateX(-10%);
+            transform: translateY(-20%) translateX(-10%); }
+  100% {
+    -webkit-transform: translateY(0%) translateX(10%);
+            transform: translateY(0%) translateX(10%); } }
+@-o-keyframes left-right {
+  0% {
+    -o-transform: translateY(-20%) translateX(-10%);
+       transform: translateY(-20%) translateX(-10%); }
+  100% {
+    -o-transform: translateY(0%) translateX(10%);
+       transform: translateY(0%) translateX(10%); } }
+@keyframes left-right {
+  0% {
+    -webkit-transform: translateY(-20%) translateX(-10%);
+         -o-transform: translateY(-20%) translateX(-10%);
+            transform: translateY(-20%) translateX(-10%); }
+  100% {
+    -webkit-transform: translateY(0%) translateX(10%);
+         -o-transform: translateY(0%) translateX(10%);
+            transform: translateY(0%) translateX(10%); } }
+@-webkit-keyframes right-left {
+  0% {
+    -webkit-transform: translateY(0%) translateX(10%);
+            transform: translateY(0%) translateX(10%); }
+  100% {
+    -webkit-transform: translateY(-20%) translateX(-10%);
+            transform: translateY(-20%) translateX(-10%); } }
+@-o-keyframes right-left {
+  0% {
+    -o-transform: translateY(0%) translateX(10%);
+       transform: translateY(0%) translateX(10%); }
+  100% {
+    -o-transform: translateY(-20%) translateX(-10%);
+       transform: translateY(-20%) translateX(-10%); } }
+@keyframes right-left {
+  0% {
+    -webkit-transform: translateY(0%) translateX(10%);
+         -o-transform: translateY(0%) translateX(10%);
+            transform: translateY(0%) translateX(10%); }
+  100% {
+    -webkit-transform: translateY(-20%) translateX(-10%);
+         -o-transform: translateY(-20%) translateX(-10%);
+            transform: translateY(-20%) translateX(-10%); } }
+/* added to the original element calling slippry */
+.pagelayer-imgsl-box.pagelayer-imgsl-loading {
+  background: url("../images/pagelayer-imgsl-loader.gif") 50% 50% no-repeat;
+  -webkit-background-size: 32px 32px;
+          background-size: 32px;
+  min-height: 40px; }
+  .pagelayer-imgsl-box.pagelayer-imgsl-loading .pagelayer-imgsl-slides-wrap, .pagelayer-imgsl-box.pagelayer-imgsl-loading .pagelayer-imgsl-pager {
+    visibility: hidden; }
+
+/* element that wraps the slides */
+.pagelayer-imgsl-slides-wrap {
+  position: relative;
+  height: 100%;
+  width: 100%; }
+  .pagelayer-imgsl-slides-wrap:hover .pagelayer-imgsl-controls {
+    display: block; }
+
+/* element that crops the visible area to the slides */
+.pagelayer-imgsl-slides-crop {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  overflow: hidden; }
+
+/* list containing the slides */
+.pagelayer-imgsl-list {
+  width: 100%;
+  height: 100%;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: absolute; }
+  .pagelayer-imgsl-list.horizontal {
+    -webkit-transition: left ease;
+         -o-transition: left ease;
+            transition: left ease; }
+  .pagelayer-imgsl-list.vertical {
+    -webkit-transition: top ease;
+         -o-transition: top ease;
+            transition: top ease; }
+
+/* single slide */
+.pagelayer-imgsl-slide {
+  position: absolute;
+  width: 100%;
+  z-index: 2; }
+  .pagelayer-imgsl-slide.kenburns {
+    width: 140%;
+    left: -20%; }
+    .pagelayer-imgsl-slide.kenburns.useCSS {
+      -webkit-transition-property: opacity;
+           -o-transition-property: opacity;
+              transition-property: opacity; }
+      .pagelayer-imgsl-slide.kenburns.useCSS.pagelayer-imgsl-ken:nth-child(1n) {
+        -webkit-animation-name: left-right;
+             -o-animation-name: left-right;
+                animation-name: left-right;
+        -webkit-animation-fill-mode: forwards;
+             -o-animation-fill-mode: forwards;
+                animation-fill-mode: forwards; }
+      .pagelayer-imgsl-slide.kenburns.useCSS.pagelayer-imgsl-ken:nth-child(2n) {
+        -webkit-animation-name: right-left;
+             -o-animation-name: right-left;
+                animation-name: right-left;
+        -webkit-animation-fill-mode: forwards;
+             -o-animation-fill-mode: forwards;
+                animation-fill-mode: forwards; }
+  .pagelayer-imgsl-slide.pagelayer-imgsl-active {
+    z-index: 3; }
+  .pagelayer-imgsl-slide > img {
+    margin: 0;
+    padding: 0;
+    display: block;
+    width: 100%;
+    border: 0; }
+  .pagelayer-imgsl-slide > a {
+    margin: 0;
+    padding: 0;
+    display: block;
+    width: 100%; }
+    .pagelayer-imgsl-slide > a > img {
+      margin: 0;
+      padding: 0;
+      display: block;
+      width: 100%;
+      border: 0; }
+
+/* next/ prev buttons, with arrows and clickable area a lot larger than the visible buttons */
+.pagelayer-imgsl-controls {
+  display: none;
+  list-style: none;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  padding: 0;
+  margin: 0; }
+  .pagelayer-imgsl-controls li {
+    position: absolute;
+    width: 10%;
+    min-width: 4.2em;
+    height: 100%;
+    z-index: 33; }
+    .pagelayer-imgsl-controls li.pagelayer-imgsl-prev {
+      left: 0;
+      top: 0; }
+      .pagelayer-imgsl-controls li.pagelayer-imgsl-prev a:after {
+        background-position: -5% 0; }
+    .pagelayer-imgsl-controls li.pagelayer-imgsl-next {
+      right: 0;
+      top: 0; }
+      .pagelayer-imgsl-controls li.pagelayer-imgsl-next a:after {
+        background-position: 105% 0; }
+    .pagelayer-imgsl-controls li a {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: block;
+      text-indent: -9999px; }
+      .pagelayer-imgsl-controls li a:link, .pagelayer-imgsl-controls li a:visited {
+        opacity: 0.4; }
+      .pagelayer-imgsl-controls li a:hover, .pagelayer-imgsl-controls li a:focus {
+        opacity: 0.8;
+        outline: none; }
+      .pagelayer-imgsl-controls li a:after {
+        content: "";
+        background-image: url("../images/arrows.svg");
+        background-repeat: no-repeat;
+        -webkit-background-size: cover;
+                background-size: cover;
+        text-align: center;
+        text-indent: 0;
+        line-height: 2.8em;
+        color: #111;
+        font-weight: 800;
+        position: absolute;
+        background-color: #fff;
+        width: 2.8em;
+        height: 2.8em;
+        left: 50%;
+        top: 50%;
+        margin-top: -1.4em;
+        margin-left: -1.4em;
+        border-radius: 50%; }
+  @media only screen and (max-device-width: 600px) {
+    .pagelayer-imgsl-controls {
+      display: block; }
+      .pagelayer-imgsl-controls li {
+        min-width: 2.1em; }
+        .pagelayer-imgsl-controls li a:after {
+          width: 1.4em;
+          height: 1.4em;
+          margin-top: -0.7em;
+          margin-left: -0.7em; } }
+
+/* captions, styled fo the overlay variant */
+.pagelayer-imgsl-caption-wrap {
+  position: absolute;
+  bottom: 2em;
+  z-index: 12;
+  left: 50%; }
+  .pagelayer-imgsl-caption-wrap .pagelayer-imgsl-caption {
+    position: relative;
+    left: -50%;
+    background-color: rgba(0, 0, 0, 0.54);
+    color: #fff;
+    padding: 0.4em 1em;
+    border-radius: 1.2em; }
+    .pagelayer-imgsl-caption-wrap .pagelayer-imgsl-caption a:link, .pagelayer-imgsl-caption-wrap .pagelayer-imgsl-caption a:visited {
+      color: #e24b70;
+      font-weight: 600;
+      text-decoration: none; }
+    .pagelayer-imgsl-caption-wrap .pagelayer-imgsl-caption a:hover, .pagelayer-imgsl-caption-wrap .pagelayer-imgsl-caption a:focus {
+      text-decoration: underline; }
+  @media only screen and (max-device-width: 600px), screen and (max-width: 600px) {
+    .pagelayer-imgsl-caption-wrap {
+      left: 0;
+      bottom: 0.4em; }
+      .pagelayer-imgsl-caption-wrap .pagelayer-imgsl-caption {
+        left: 0;
+        padding: 0.2em 0.4em;
+        font-size: 0.92em;
+        border-radius: 0; } }
+
+/* pager bubbles */
+.pagelayer-imgsl-pager {
+  clear: both;
+  display: block;
+  width: 100%;
+  margin: 1em 0 0;
+  padding: 0;
+  list-style: none;
+  text-align: center; }
+  .pagelayer-imgsl-pager li {
+    display: inline-block;
+    width: 1.2em;
+    height: 1.2em;
+    margin: 0 1em 0 0;
+    border-radius: 50%; }
+    .pagelayer-imgsl-pager li.pagelayer-imgsl-active a {
+      background-color: #e24b70; }
+    .pagelayer-imgsl-pager li a {
+      width: 100%;
+      height: 100%;
+      display: block;
+      background-color: #ccc;
+      text-indent: -9999px;
+      -webkit-background-size: 2em 2em;
+              background-size: 2em;
+      border-radius: 50%; }
+      .pagelayer-imgsl-pager li a:link, .pagelayer-imgsl-pager li a:visited {
+        opacity: 1.0; }
+      .pagelayer-imgsl-pager li a:hover, .pagelayer-imgsl-pager li a:focus {
+        opacity: 0.6; }
+
+/* element to "keep/ fill" the space of the content, gets intrinsic height via js */
+.pagelayer-imgsl-filler {
+  width: 100%; }
+  .pagelayer-imgsl-filler.ready {
+    -webkit-transition: padding 600ms ease;
+         -o-transition: padding 600ms ease;
+            transition: padding 600ms ease; }
